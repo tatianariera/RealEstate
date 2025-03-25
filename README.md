@@ -1,2 +1,3 @@
 # TFG
-Trabajo de Final - Grado Superior de Desarrollo de Aplicaciones Web
+Trabajo Final de Grado
+Grado Superior de Desarrollo de Aplicaciones Web - IES Son Ferrer
