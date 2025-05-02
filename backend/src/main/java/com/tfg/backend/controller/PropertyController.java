@@ -1,4 +1,4 @@
-package com.tfg.controller;
+package com.tfg.backend.controller;
 
 import java.util.List;
 
