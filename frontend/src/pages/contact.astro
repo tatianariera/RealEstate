@@ -1,0 +1,22 @@
+---
+import Contactform from "@/components/contactform.astro";
+import Container from "@/components/container.astro";
+import Sectionhead from "@/components/sectionhead.astro";
+import Layout from "@/layouts/Layout.astro";
+import { Icon } from "astro-icon/components";
+---
+
+<Layout title="Contact">
+  <Container>
+    <Sectionhead>
+      <Fragment slot="title">Contact</Fragment>
+      <Fragment slot="desc">We are here to help.</Fragment>
+    </Sectionhead>
+
+    <div class="grid gap-10 mx-auto max-w-4xl mt-16">
+      <div class="mx-auto w-full max-w-md"> <!-- Este div hace el formulario más pequeño y centrado -->
+        <Contactform />
+      </div>
+    </div>
+  </Container>
+</Layout>

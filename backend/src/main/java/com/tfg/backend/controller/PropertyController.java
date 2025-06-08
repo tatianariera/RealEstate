@@ -1,33 +1,41 @@
 package com.tfg.backend.controller;
 
+import com.tfg.backend.entity.Property;
+import com.tfg.backend.service.PropertyService;
+
+import java.util.Optional;
+
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
-
-import com.tfg.backend.repository.PropertyRepository;
-import com.tfg.backend.entity.Property;
-
+@CrossOrigin(origins = "*")
 @RestController
 @RequestMapping("/api/properties")
 public class PropertyController {
-    private final PropertyRepository propertyRepository;
 
-    public PropertyController(PropertyRepository propertyRepository){
-        this.propertyRepository = propertyRepository;
+    private final PropertyService propertyService;
+
+    // Constructor con inyección de dependencias
+    public PropertyController(PropertyService propertyService) {
+        this.propertyService = propertyService;
     }
 
-    @GetMapping
-    public List<Property> getAllProperties(){
-        return propertyRepository.findAll();
+    @GetMapping("/sale")
+    public List<Property> getPropertiesForSale() {
+        return propertyService.getPropertiesForSale();
     }
 
-    @PostMapping
-    public Property createProperty(@RequestBody Property property){
-        return propertyRepository.save(property);
+    @GetMapping("/rent")
+    public List<Property> getPropertiesForRent() {
+        return propertyService.getPropertiesForRent();
+    }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<Property> getPropertyById(@PathVariable Long id) {
+        Optional<Property> property = propertyService.getPropertyById(id);
+        return property.map(ResponseEntity::ok)
+                       .orElseGet(() -> ResponseEntity.notFound().build());
     }
 
 }

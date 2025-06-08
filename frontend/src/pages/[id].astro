@@ -1,0 +1,81 @@
+---
+import Layout from "@/layouts/Layout.astro";
+
+export const prerender = false;
+
+const { params } = Astro;
+const id = params.id;
+
+type Property = {
+  id: number | string;
+  title: string;
+  bedrooms: number;
+  bathrooms: number;
+  parking: boolean;
+  pool: boolean;
+  sqmt: number;
+  floor: string;
+  elevator: boolean;
+  price: number;
+  location: string;
+  imageUrl: string;
+  publishDate: string;
+  type: "SALE" | "RENT";
+};
+
+let property: Property | null = null;
+
+try {
+  const res = await fetch(`http://localhost:8081/api/properties/${id}`);
+  if (res.ok) {
+    property = await res.json();
+  } else {
+    console.error("Failed to fetch property", res.status);
+  }
+} catch (error) {
+  console.error("Error fetching property", error);
+}
+
+const isHouse = property?.title.toLowerCase().includes("house");
+---
+
+<Layout title={property ? property.title : "Property Not Found"}>
+  {property ? (
+    <main class="max-w-5xl mx-auto mt-16 px-4">
+      <div class="flex justify-center mb-10">
+        <img
+          src={`http://localhost:8081${property.imageUrl}`}
+          alt={property.title}
+          class="w-full max-w-3xl rounded-md object-cover object-center bg-white shadow-md"
+        />
+      </div>
+
+      <section class="text-center">
+        <h1 class="text-5xl font-bold mb-3">{property.title}</h1>
+        <p class="uppercase text-sm text-blue-500 tracking-wide font-semibold mb-6">
+          {property.type === "SALE" ? "For Sale" : "For Rent"} &bull; {property.location}
+        </p>
+
+        <div class="text-4xl font-extrabold text-slate-900 mb-10">
+          € {property.price.toLocaleString()}
+        </div>
+
+        <ul class="max-w-xl mx-auto space-y-4 text-gray-700 text-lg font-medium text-left">
+          <li><strong>Bedrooms:</strong> {property.bedrooms}</li>
+          <li><strong>Bathrooms:</strong> {property.bathrooms}</li>
+          <li><strong>Square Meters:</strong> {property.sqmt} m²</li>
+          {!isHouse && <li><strong>Floor:</strong> {property.floor}</li>}
+          {!isHouse && <li><strong>Elevator:</strong> {property.elevator ? "Yes" : "No"}</li>}
+          {!isHouse && <li><strong>Parking:</strong> {property.parking ? "Yes" : "No"}</li>}
+          <li><strong>Pool:</strong> {property.pool ? "Yes" : "No"}</li>
+        </ul>
+
+        <time class="block mt-12 text-gray-400 text-sm">
+          Listed on {new Date(property.publishDate).toLocaleDateString()}
+        </time>
+      </section>
+    </main>
+  ) : (
+    <p class="text-center mt-16 text-red-500">Property Not Found.</p>
+  )}
+</Layout>

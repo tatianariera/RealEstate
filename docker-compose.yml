@@ -1,0 +1,33 @@
+version: "3.9"
+services:
+  tfg-mysql:
+    image: mysql:8.0
+    container_name: tfg-mysql
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: admin
+      MYSQL_DATABASE: inmobiliaria
+    ports:
+      - "3306:3306"
+    volumes:
+      - mysql-data:/var/lib/mysql
+    networks:
+      - tfg-network
+
+  tfg-backend:
+    build: ./backend
+    container_name: tfg-backend
+    restart: always
+    ports:
+      - "8080:8080"
+    depends_on:
+      - tfg-mysql
+    networks:
+      - tfg-network
+
+networks:
+  tfg-network:
+    driver: bridge
+
+volumes:
+  mysql-data:

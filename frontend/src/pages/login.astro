@@ -1,0 +1,103 @@
+
+<style>
+  .background {
+    position: fixed;
+    inset: 0;
+    background-image: url("/src/assets/login.png"); 
+    background-size: cover;
+    background-position: center;
+    filter: brightness(0.6);
+    z-index: -1;
+  }
+
+  .form-wrapper {
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 2rem;
+  }
+
+  form {
+    background: rgba(255 255 255 / 0.9);
+    padding: 3rem 2rem;
+    border-radius: 0.75rem;
+    max-width: 400px;
+    width: 100%;
+    box-shadow: 0 8px 24px rgb(0 0 0 / 0.15);
+  }
+
+  label {
+    display: block;
+    margin-bottom: 0.25rem;
+    font-weight: 600;
+    color: #374151;
+  }
+
+  input {
+    width: 100%;
+    padding: 0.5rem 0.75rem;
+    margin-bottom: 1rem;
+    border: 1px solid #ccc;
+    border-radius: 0.375rem;
+    font-size: 1rem;
+  }
+
+  button {
+    width: 100%;
+    padding: 0.75rem;
+    background-color: #374151;
+    color: white;
+    font-weight: 600;
+    border-radius: 0.375rem;
+    border: none;
+    font-size: 1.125rem;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+  }
+
+  button:hover {
+    background-color: #1f2937;
+  }
+</style>
+
+<div class="background"></div>
+
+<div class="form-wrapper">
+  <form id="login-form" onsubmit="handleLogin(event)">
+    <h1 style="font-size: 2rem; font-weight: 700; margin-bottom: 1.5rem; color:#111827;">
+      Employee Authentication
+    </h1>
+
+    <label for="code">Code</label>
+    <input type="text" id="code" name="code" required />
+
+    <button type="submit">Log in</button>
+  </form>
+</div>
+
+<script is:inline>
+  async function handleLogin(event) {
+    event.preventDefault();
+    const code = event.target.code.value;
+
+    try {
+      const res = await fetch("http://localhost:8081/api/auth/login", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ code }),
+      });
+
+      if (!res.ok) {
+        alert("Login failed. Check your employee code.");
+        return;
+      }
+
+      const user = await res.json();
+      window.location.href = "/"; // Redirigir a home o dashboard
+    } catch (err) {
+      alert("Error logging in.");
+      console.error(err);
+    }
+  }
+</script>

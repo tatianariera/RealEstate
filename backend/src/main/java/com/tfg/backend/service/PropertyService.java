@@ -1,35 +1,38 @@
 package com.tfg.backend.service;
 
+import com.tfg.backend.entity.Property;
+import com.tfg.backend.repository.PropertyRepository;
+import org.springframework.stereotype.Service;
+
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-
-import com.tfg.backend.entity.Property;
-import com.tfg.backend.repository.PropertyRepository;
-
 @Service
 public class PropertyService {
-    
+
     private final PropertyRepository propertyRepository;
 
-    @Autowired
-    public PropertyService(PropertyRepository propertyRepository){
+    public PropertyService(PropertyRepository propertyRepository) {
         this.propertyRepository = propertyRepository;
     }
 
-    public Property addProperty(Property property){
-        return propertyRepository.save(property);
+    public List<Property> getPropertiesForSale() {
+        return propertyRepository.findByPublishDateBeforeAndTypeOrderByPublishDateDesc(LocalDate.now(),
+                Property.PropertyType.SALE);
     }
 
-    public List<Property> getAllProperties(){
-        return propertyRepository.findAll();
-    } 
+    public List<Property> getPropertiesForRent() {
+        return propertyRepository.findByPublishDateBeforeAndTypeOrderByPublishDateDesc(LocalDate.now(),
+                Property.PropertyType.RENT);
+    }
 
-    public Property getPropertyById(Long id){
-        Optional<Property> property = propertyRepository.findById(id);
-        return property.orElseThrow(() -> new RuntimeException("Property not found"));
+    public Optional<Property> getPropertyById(Long id) {
+        return propertyRepository.findById(id);
+    }
+
+    public Property save(Property property) {
+        return propertyRepository.save(property);
     }
 
 }

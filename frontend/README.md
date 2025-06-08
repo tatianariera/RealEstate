@@ -1,70 +1,166 @@
-# Getting Started with Create React App
+# Astroship - Astro SAAS Starter Website Template
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+Astroship is a free starter astro website template for saas, startups, marketing websites, landing pages & blogs. Built with Astro & TailwindCSS.
 
-## Available Scripts
+This Free Template is sponsored by [Web3Templates](https://web3templates.com)
 
-In the project directory, you can run:
+## Live Demo
 
-### `npm start`
+**[https://astroship.web3templates.com/](https://astroship.web3templates.com/)**
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+**[Download Astroship Template](https://web3templates.com/templates/astroship-starter-website-template-for-astro)**
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+## Upgrade to Astroship Pro Version
 
-### `npm test`
+**[https://astroship-pro.web3templates.com/](https://astroship-pro.web3templates.com/)**
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+**[Purchase Astroship Pro — $49](https://web3templates.com/templates/astroship-pro-astro-saas-website-template)**
 
-### `npm run build`
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+<!-- prettier-ignore -->
+| Feature | Free Version | Pro Version |
+| --- | ------ | --- |
+| Astro v3 | ✅  | ✅ |
+| Content Collections | ✅  | ✅ |
+| Tailwind CSS   | ✅  | ✅ |
+| Mobile Responsive | ✅  | ✅ |
+| Working Contact Page | ✅  | ✅ |
+| Pro Layouts & Features | ❌  | ✅ |
+| Blog with Pagination | ❌ | ✅ |
+| View Transitions | ❌ | ✅ |
+| Advanced Homepage Design | ❌  | ✅ |
+| Features Page | ❌  | ✅ |
+| Integrations Page | ❌  | ✅ |
+| Elegant 404 Page | ❌  | ✅ |
+| 6 Months Support| ❌  | ✅  |
+| Free Updates    | ✅  | ✅  |
+| License         | GPL-2.0 | Commercial |
+| &nbsp; | &nbsp;| &nbsp;|
+| Pricing| Free|**$49**|
+| &nbsp; | [Deploy for free](https://vercel.com/new/surjithctly/clone?demo-description=Starter%20template%20for%20startups%2C%20marketing%20websites%20%26%20blogs%20built%20with%20Astro%20and%20TailwindCSS.&demo-image=%2F%2Fimages.ctfassets.net%2Fe5382hct74si%2F5dB0dDqBr1BfvIoNOmffVB%2F784984a8d3fe5e3db123e7c655166046%2Fastroship_-_Tony_Sullivan.jpg&demo-title=Astroship&demo-url=https%3A%2F%2Fastroship.web3templates.com%2F&from=templates&project-name=Astroship&repository-name=astroship&repository-url=https%3A%2F%2Fgithub.com%2Fsurjithctly%2Fastroship&skippable-integrations=1) | [Purchase Pro](https://web3templates.com/templates/astroship-pro-astro-saas-website-template) |
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+<a href="https://web3templates.com/templates/astroship-pro-astro-saas-website-template">
+<img width="160" alt="Upgrade to Pro" src="https://user-images.githubusercontent.com/1884712/199181300-37c2128e-d033-4145-a906-16fa5263a53b.png">
+</a>
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+## Deploy this template
 
-### `npm run eject`
+You can instantly clone this to your GitHub and deploy the site by clicking the below buttons to deploy to your chosen providers!
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+Click here to deploy on Vercel:
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+[![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-url=https%3A%2F%2Fgithub.com%2Fsurjithctly%2Fastroship&project-name=astroship&repository-name=astroship&demo-title=Astroship%20-%20Astro%20Starter%20Template&demo-description=Astroship%20is%20a%20starter%20template%20for%20startups%2C%20marketing%20websites%20%26%20landing%20pages.%20Built%20with%20Astro%2C%20TailwindCSS&demo-url=https%3A%2F%2Fastroship.web3templates.com%2F&demo-image=https%3A%2F%2Fuser-images.githubusercontent.com%2F1884712%2F200831799-10ef2456-a02e-4068-b580-4b5326f0b33b.png)
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+Click here to deploy on Netlify:
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+[![Deploy to Netlify](https://www.netlify.com/img/deploy/button.svg)](https://app.netlify.com/start/deploy?repository=https://github.com/surjithctly/astroship)
 
-## Learn More
+## Preview
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+![image](https://user-images.githubusercontent.com/1884712/200831799-10ef2456-a02e-4068-b580-4b5326f0b33b.png)
 
-To learn React, check out the [React documentation](https://reactjs.org/).
 
-### Code Splitting
+## Pro Version Preview
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
+![preview](https://github.com/surjithctly/astroship/assets/1884712/25665c02-d2a7-43dc-89b2-34a8ae37ade9)
 
-### Analyzing the Bundle Size
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
+### Pagespeed Score
 
-### Making a Progressive Web App
+[![pagespeed](https://user-images.githubusercontent.com/1884712/210250214-7aa98167-7993-4b90-8138-326b8fa0c223.png)](https://pagespeed.web.dev/report?url=https%3A%2F%2Fastroship.web3templates.com%2F)
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
 
-### Advanced Configuration
+## Installation
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
+If you are reading this on github, you can click on the "Use this template" button above to create a new repository from astroship to your account. Then you can do a `git clone` to clone it to your local system.
 
-### Deployment
+Alternatively, you can clone the project directly from this repo to your local system.
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
+### 1. Clone the repo
 
-### `npm run build` fails to minify
+```bash
+git clone https://github.com/surjithctly/astroship.git myProjectName
+# or
+git clone https://github.com/surjithctly/astroship.git .
+```
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+The `.` will clone it to the current directory so make sure you are inside your project folder first.
+
+### 2. Install Dependencies
+
+```bash
+npm install
+# or
+yarn install
+# or (recommended)
+pnpm install
+```
+
+### 3. Start development Server
+
+```bash
+npm run dev
+# or
+yarn dev
+# or (recommended)
+pnpm dev
+```
+
+### Preview & Build
+
+```bash
+npm run preview
+npm run build
+# or
+yarn preview
+yarn build
+# or (recommended)
+pnpm preview
+pnpm build
+```
+
+We recommend using [pnpm](https://pnpm.io/) to save disk space on your computer.
+
+### Other Commands
+
+```bash
+pnpm astro ...
+pnpm astro add
+pnpm astro --help
+```
+
+## Project Structure
+
+Inside of your Astro project, you'll see the following folders and files:
+
+```
+/
+├── public/
+│   └── ...
+├── src/
+│   ├── components/
+│   │   └── ...
+│   ├── layouts/
+│   │   └── ...
+│   └── pages/
+│       └── ...
+└── package.json
+```
+
+Astro looks for `.astro` or `.md` files in the `src/pages/` directory. Each page is exposed as a route based on its file name.
+
+Any static assets, like images, can be placed in the `public/` directory.
+
+## TailwindCSS
+
+TailwindCSS is already configured in this repo, so you can start using it without any installation.
+
+## Credits
+
+[Hero Illustration](https://www.figma.com/community/file/1108400791662599811) by [Streamline](https://www.streamlinehq.com/)
+
+## 👀 Want to learn more?
+
+Feel free to check out [Astro Docs](https://docs.astro.build) or jump into our [Discord Chat](https://web3templates.com/discord).
+
+[![Built with Astro](https://astro.badg.es/v1/built-with-astro.svg)](https://astro.build)

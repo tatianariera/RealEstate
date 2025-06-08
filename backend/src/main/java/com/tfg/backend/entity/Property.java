@@ -1,31 +1,35 @@
 package com.tfg.backend.entity;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
+import jakarta.persistence.*;
 import lombok.Data;
 
-@Entity
+import java.time.LocalDate;
+
 @Data
+@Entity
 public class Property {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     private String title;
-    private String description;
+    private int bedrooms;
+    private int bathrooms;
+    private boolean parking;
+    private boolean pool;
+    private double sqmt;
+    private String floor;
+    private boolean elevator;
+    private double price;
     private String location;
-    private Double price;
-    private String type;
-    private Integer bedrooms;
-    private Integer bathrooms;
-    private Double area;
+    private String imageUrl;
+    private LocalDate publishDate;
 
-    @ManyToOne
-    @JoinColumn(name = "owner_id")
-    private User owner;
+    @Enumerated(EnumType.STRING)
+    private PropertyType type; 
 
+    public enum PropertyType {
+        SALE, RENT
+    }
 }

@@ -1,0 +1,43 @@
+---
+import { Picture } from "astro:assets";
+import home from "@/assets/home.png";
+import Link from "@/components/ui/link.astro";
+import { Icon } from "astro-icon/components";
+---
+<main
+  class="min-h-screen grid lg:grid-cols-2 place-items-center pt-16 pb-8 md:pt-12 md:pb-24 gap-8 px-4 max-w-7xl mx-auto">
+  
+  <div class="order-1 md:order-1 w-full max-w-full lg:max-w-none mx-auto">
+    <Picture
+      src={home}
+      alt="Coastal property view"
+      widths={[200, 400, 600]}
+      sizes="(max-width: 800px) 80vw, 620px"
+      loading="eager"
+      format="avif"
+      class="w-[80vw] max-w-md lg:w-full lg:max-w-none h-auto rounded-lg shadow-md object-cover mx-auto"
+    />
+  </div>
+  
+  <div class="w-full max-w-xl">
+    <h1
+      class="text-5xl lg:text-6xl xl:text-7xl font-bold lg:tracking-tight xl:tracking-tighter">
+      Tatiana's Properties
+    </h1>
+    <p class="text-lg mt-4 text-slate-600 max-w-xl">
+      Discover your dream home in Mallorca with Tatiana's Properties. We specialize in buying, selling, and renting unique homes and villas across the island — tailored to your lifestyle and needs.
+    </p>
+    <div class="mt-6 flex flex-col sm:flex-row gap-3">
+      <Link
+        size="lg"
+        style="outline"
+        rel="noopener"
+        href="https://github.com/tatianariera/TFG.git"
+        class="flex gap-1 items-center justify-center"
+        target="_blank">
+        <Icon class="text-black w-4 h-4" name="bx:bxl-github" />
+        GitHub Repo
+      </Link>
+    </div>
+  </div>
+</main>
