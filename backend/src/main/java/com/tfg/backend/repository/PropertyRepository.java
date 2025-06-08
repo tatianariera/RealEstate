@@ -7,7 +7,6 @@ import java.util.List;
 
 public interface PropertyRepository extends JpaRepository<Property, Long> {
 
-    List<Property> findByPublishDateBeforeAndTypeOrderByPublishDateDesc(java.time.LocalDate now,
-            Property.PropertyType type);
+    List<Property> findByTypeOrderByPublishDateDesc(Property.PropertyType type);
 
 }

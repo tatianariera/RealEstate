@@ -3,7 +3,7 @@
   .background {
     position: fixed;
     inset: 0;
-    background-image: url("/src/assets/login.png"); 
+    background-image: url("/src/assets/login.png");
     background-size: cover;
     background-position: center;
     filter: brightness(0.6);
@@ -65,7 +65,8 @@
 
 <div class="form-wrapper">
   <form id="login-form" onsubmit="handleLogin(event)">
-    <h1 style="font-size: 2rem; font-weight: 700; margin-bottom: 1.5rem; color:#111827;">
+    <h1
+      style="font-size: 2rem; font-weight: 700; margin-bottom: 1.5rem; color:#111827;">
       Employee Authentication
     </h1>
 
@@ -81,23 +82,11 @@
     event.preventDefault();
     const code = event.target.code.value;
 
-    try {
-      const res = await fetch("http://localhost:8081/api/auth/login", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ code }),
-      });
-
-      if (!res.ok) {
-        alert("Login failed. Check your employee code.");
-        return;
-      }
-
-      const user = await res.json();
-      window.location.href = "/"; // Redirigir a home o dashboard
-    } catch (err) {
-      alert("Error logging in.");
-      console.error(err);
+    if (code === "EMPLOYEE2025") {
+      localStorage.setItem("authenticated", "true"); // para control futuro
+      window.location.href = "/create";
+    } else {
+      alert("Incorrect code.");
     }
   }
 </script>

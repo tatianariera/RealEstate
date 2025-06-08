@@ -16,7 +16,6 @@ public class PropertyController {
 
     private final PropertyService propertyService;
 
-    // Constructor con inyección de dependencias
     public PropertyController(PropertyService propertyService) {
         this.propertyService = propertyService;
     }
@@ -35,7 +34,13 @@ public class PropertyController {
     public ResponseEntity<Property> getPropertyById(@PathVariable Long id) {
         Optional<Property> property = propertyService.getPropertyById(id);
         return property.map(ResponseEntity::ok)
-                       .orElseGet(() -> ResponseEntity.notFound().build());
+                .orElseGet(() -> ResponseEntity.notFound().build());
+    }
+
+    @PostMapping("/new")
+    public ResponseEntity<Property> createProperty(@RequestBody Property property) {
+        Property savedProperty = propertyService.saveProperty(property);
+        return ResponseEntity.ok(savedProperty);
     }
 
 }

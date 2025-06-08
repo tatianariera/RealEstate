@@ -4,7 +4,6 @@ import com.tfg.backend.entity.Property;
 import com.tfg.backend.repository.PropertyRepository;
 import org.springframework.stereotype.Service;
 
-import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 
@@ -18,21 +17,18 @@ public class PropertyService {
     }
 
     public List<Property> getPropertiesForSale() {
-        return propertyRepository.findByPublishDateBeforeAndTypeOrderByPublishDateDesc(LocalDate.now(),
-                Property.PropertyType.SALE);
+        return propertyRepository.findByTypeOrderByPublishDateDesc(Property.PropertyType.SALE);
     }
 
     public List<Property> getPropertiesForRent() {
-        return propertyRepository.findByPublishDateBeforeAndTypeOrderByPublishDateDesc(LocalDate.now(),
-                Property.PropertyType.RENT);
+        return propertyRepository.findByTypeOrderByPublishDateDesc(Property.PropertyType.RENT);
     }
 
     public Optional<Property> getPropertyById(Long id) {
         return propertyRepository.findById(id);
     }
 
-    public Property save(Property property) {
+    public Property saveProperty(Property property) {
         return propertyRepository.save(property);
     }
-
 }
