@@ -4,6 +4,8 @@ import Sectionhead from "@/components/sectionhead.astro";
 import Layout from "@/layouts/Layout.astro";
 
 const backendUrl = "http://localhost:8081/api/properties/new";
+const employeesUrl = "http://localhost:8081/api/employees";
+const locationsUrl = "http://localhost:8081/api/locations"; // Asumo que tienes este endpoint
 ---
 
 <Layout title="Create New Property">
@@ -15,130 +17,262 @@ const backendUrl = "http://localhost:8081/api/properties/new";
       </Fragment>
     </Sectionhead>
 
-<form id="property-form" class="max-w-2xl mx-auto mt-10 grid gap-6" onsubmit="submitProperty(event)">
-  <div class="grid gap-2">
-    <label for="title" class="font-semibold text-slate-700">Title</label>
-    <input type="text" name="title" id="title" required
-      class="input px-4 py-2 bg-slate-100 border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-slate-500 transition" />
-  </div>
+    <form id="property-form" class="max-w-2xl mx-auto mt-10 grid gap-6" onsubmit="submitProperty(event)">
+      <div class="grid gap-2">
+        <label for="title" class="font-semibold text-slate-700">Title</label>
+        <input
+          type="text"
+          name="title"
+          id="title"
+          required
+          class="input px-4 py-2 bg-slate-100 border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-slate-500 transition"
+        />
+      </div>
 
-  <div class="grid gap-2">
-    <label for="location" class="font-semibold text-slate-700">Location</label>
-    <input type="text" name="location" id="location" required
-      class="input px-4 py-2 bg-slate-100 border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-slate-500 transition" />
-  </div>
+      <div class="grid gap-2">
+        <label for="locationId" class="font-semibold text-slate-700">Location</label>
+        <select
+          name="locationId"
+          id="locationId"
+          required
+          class="input px-4 py-2 bg-slate-100 border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-slate-500 transition"
+        >
+          <option value="">Select a location</option>
+        </select>
+      </div>
 
-  <div class="grid grid-cols-2 gap-4">
-    <div class="grid gap-2">
-      <label for="price" class="font-semibold text-slate-700">Price (€)</label>
-      <input type="number" name="price" id="price" required
-        class="input px-4 py-2 bg-slate-100 border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-slate-500 transition" />
-    </div>
-    <div class="grid gap-2">
-      <label for="sqmt" class="font-semibold text-slate-700">Square meters</label>
-      <input type="number" name="sqmt" id="sqmt" required
-        class="input px-4 py-2 bg-slate-100 border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-slate-500 transition" />
-    </div>
-  </div>
+      <div class="grid grid-cols-2 gap-4">
+        <div class="grid gap-2">
+          <label for="price" class="font-semibold text-slate-700">Price (€)</label>
+          <input
+            type="number"
+            name="price"
+            id="price"
+            required
+            class="input px-4 py-2 bg-slate-100 border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-slate-500 transition"
+            min="0"
+            step="0.01"
+          />
+        </div>
+        <div class="grid gap-2">
+          <label for="sqmt" class="font-semibold text-slate-700">Square meters</label>
+          <input
+            type="number"
+            name="sqmt"
+            id="sqmt"
+            required
+            class="input px-4 py-2 bg-slate-100 border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-slate-500 transition"
+            min="0"
+            step="0.1"
+          />
+        </div>
+      </div>
 
-  <div class="grid grid-cols-3 gap-4">
-    <div class="grid gap-2">
-      <label for="bedrooms" class="font-semibold text-slate-700">Bedrooms</label>
-      <input type="number" name="bedrooms" id="bedrooms" required
-        class="input px-4 py-2 bg-slate-100 border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-slate-500 transition" />
-    </div>
-    <div class="grid gap-2">
-      <label for="bathrooms" class="font-semibold text-slate-700">Bathrooms</label>
-      <input type="number" name="bathrooms" id="bathrooms" required
-        class="input px-4 py-2 bg-slate-100 border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-slate-500 transition" />
-    </div>
-    <div class="grid gap-2">
-      <label for="floor" class="font-semibold text-slate-700">Floor</label>
-      <input type="text" name="floor" id="floor"
-        class="input px-4 py-2 bg-slate-100 border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-slate-500 transition" />
-    </div>
-  </div>
+      <div class="grid grid-cols-3 gap-4">
+        <div class="grid gap-2">
+          <label for="bedrooms" class="font-semibold text-slate-700">Bedrooms</label>
+          <input
+            type="number"
+            name="bedrooms"
+            id="bedrooms"
+            required
+            class="input px-4 py-2 bg-slate-100 border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-slate-500 transition"
+            min="0"
+          />
+        </div>
+        <div class="grid gap-2">
+          <label for="bathrooms" class="font-semibold text-slate-700">Bathrooms</label>
+          <input
+            type="number"
+            name="bathrooms"
+            id="bathrooms"
+            required
+            class="input px-4 py-2 bg-slate-100 border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-slate-500 transition"
+            min="0"
+          />
+        </div>
+        <div class="grid gap-2">
+          <label for="floor" class="font-semibold text-slate-700">Floor</label>
+          <input
+            type="text"
+            name="floor"
+            id="floor"
+            class="input px-4 py-2 bg-slate-100 border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-slate-500 transition"
+          />
+        </div>
+      </div>
 
-  <div class="grid grid-cols-3 gap-4">
-    <label class="inline-flex items-center gap-2">
-      <input type="checkbox" name="parking" class="form-checkbox text-slate-600 focus:ring-slate-500" />
-      Parking
-    </label>
-    <label class="inline-flex items-center gap-2">
-      <input type="checkbox" name="pool" class="form-checkbox text-slate-600 focus:ring-slate-500" />
-      Pool
-    </label>
-    <label class="inline-flex items-center gap-2">
-      <input type="checkbox" name="elevator" class="form-checkbox text-slate-600 focus:ring-slate-500" />
-      Elevator
-    </label>
-  </div>
+      <div class="grid grid-cols-3 gap-4">
+        <label class="inline-flex items-center gap-2">
+          <input
+            type="checkbox"
+            name="parking"
+            class="form-checkbox text-slate-600 focus:ring-slate-500"
+          />
+          Parking
+        </label>
+        <label class="inline-flex items-center gap-2">
+          <input
+            type="checkbox"
+            name="pool"
+            class="form-checkbox text-slate-600 focus:ring-slate-500"
+          />
+          Pool
+        </label>
+        <label class="inline-flex items-center gap-2">
+          <input
+            type="checkbox"
+            name="elevator"
+            class="form-checkbox text-slate-600 focus:ring-slate-500"
+          />
+          Elevator
+        </label>
+      </div>
 
-  <div class="grid gap-2">
-    <label for="type" class="font-semibold text-slate-700">Type</label>
-    <select name="type" id="type" required
-      class="input px-4 py-2 bg-slate-100 border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-slate-500 transition">
-      <option value="RENT">Rent</option>
-      <option value="SALE">Sale</option>
-    </select>
-  </div>
+      <div class="grid gap-2">
+        <label for="type" class="font-semibold text-slate-700">Type</label>
+        <select
+          name="type"
+          id="type"
+          required
+          class="input px-4 py-2 bg-slate-100 border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-slate-500 transition"
+        >
+          <option value="RENT">Rent</option>
+          <option value="SALE">Sale</option>
+        </select>
+      </div>
 
-  <div class="grid gap-2">
-    <label for="imageUrl" class="font-semibold text-slate-700">Image URL</label>
-    <input type="text" name="imageUrl" id="imageUrl" required
-      class="input px-4 py-2 bg-slate-100 border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-slate-500 transition" />
-  </div>
+      <div class="grid gap-2">
+        <label for="employeeId" class="font-semibold text-slate-700">Assigned Employee</label>
+        <select
+          name="employeeId"
+          id="employeeId"
+          required
+          class="input px-4 py-2 bg-slate-100 border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-slate-500 transition"
+        >
+          <option value="">Select an employee</option>
+        </select>
+      </div>
 
-  <div class="pt-4">
-    <button type="submit"
-      class="w-full bg-gray-700 text-white font-semibold py-3 px-6 rounded-lg transition hover:bg-gray-800">
-      Save Property
-    </button>
-  </div>
-</form>
+      <div class="grid gap-2">
+        <label for="imageUrls" class="font-semibold text-slate-700">Image URLs (comma separated)</label>
+<input
+  type="text"
+  name="imageUrls"
+  id="imageUrls"
+  placeholder="sale....png, sale....png"
+  class="input px-4 py-2 bg-slate-100 border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-slate-500 transition"
+/>
 
+      </div>
+
+      <div class="pt-4">
+        <button
+          type="submit"
+          class="w-full bg-gray-700 text-white font-semibold py-3 px-6 rounded-lg transition hover:bg-gray-800"
+        >
+          Save Property
+        </button>
+      </div>
+    </form>
   </Container>
 
   <script is:inline>
-    async function submitProperty(event) {
-      event.preventDefault();
-      const form = event.target;
-
-      const data = {
-        title: form.title.value,
-        location: form.location.value,
-        price: parseFloat(form.price.value),
-        sqmt: parseFloat(form.sqmt.value),
-        bedrooms: parseInt(form.bedrooms.value),
-        bathrooms: parseInt(form.bathrooms.value),
-        floor: form.floor.value,
-        parking: form.parking.checked,
-        pool: form.pool.checked,
-        elevator: form.elevator.checked,
-        type: form.type.value,
-        imageUrl: form.imageUrl.value,
-        publishDate: new Date().toISOString().split("T")[0]
-      };
-
-      const response = await fetch("http://localhost:8081/api/properties/new", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(data),
-      });
-
-      if (response.ok) {
-        alert("Property created successfully!");
-        form.reset();
-        window.location.href = "/"; 
-      } else {
-        alert("Error creating property.");
+    async function loadEmployees() {
+      try {
+        const response = await fetch("http://localhost:8081/api/employees");
+        if (!response.ok) {
+          alert("Error loading employees");
+          return;
+        }
+        const employees = await response.json();
+        const select = document.getElementById("employeeId");
+        select.innerHTML = '<option value="">Select an employee</option>';
+        employees.forEach((employee) => {
+          const option = document.createElement("option");
+          option.value = employee.id;
+          option.textContent = `${employee.name} (${employee.email})`;
+          select.appendChild(option);
+        });
+      } catch (error) {
+        alert("Error loading employees");
+        console.error(error);
       }
     }
 
-    // Protección mínima por localStorage
-    if (localStorage.getItem("authenticated") !== "true") {
-      window.location.href = "/login";
+    async function loadLocations() {
+      try {
+        const response = await fetch("http://localhost:8081/api/locations");
+        if (!response.ok) {
+          alert("Error loading locations");
+          return;
+        }
+        const locations = await response.json();
+        const select = document.getElementById("locationId");
+        select.innerHTML = '<option value="">Select a location</option>';
+        locations.forEach((location) => {
+          const option = document.createElement("option");
+          option.value = location.id;
+          option.textContent = location.name; 
+          select.appendChild(option);
+        });
+      } catch (error) {
+        alert("Error loading locations");
+        console.error(error);
+      }
     }
-  </script>
 
+    document.addEventListener("DOMContentLoaded", () => {
+      loadEmployees();
+      loadLocations();
+    });
+
+async function submitProperty(event) {
+  event.preventDefault();
+  const form = event.target;
+
+  const rawImageNames = form.imageUrls.value.trim();
+  const imageUrls = rawImageNames
+    ? rawImageNames.split(",").map(name => `${name.trim()}`).filter(url => url.length > 0)
+    : [];
+
+  const data = {
+    title: form.title.value,
+    locationId: parseInt(form.locationId.value),
+    price: parseFloat(form.price.value),
+    sqmt: parseFloat(form.sqmt.value),
+    bedrooms: parseInt(form.bedrooms.value),
+    bathrooms: parseInt(form.bathrooms.value),
+    floor: form.floor.value,
+    parking: form.parking.checked,
+    pool: form.pool.checked,
+    elevator: form.elevator.checked,
+    type: form.type.value,
+    employeeId: parseInt(form.employeeId.value),
+    imageUrls: imageUrls,
+  };
+
+  try {
+    const res = await fetch("http://localhost:8081/api/properties/new", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(data),
+    });
+
+    if (!res.ok) {
+      const error = await res.text();
+      alert("Error saving property: " + error);
+      return;
+    }
+
+    alert("Property saved successfully");
+    form.reset();
+  } catch (error) {
+    alert("Error sending request");
+    console.error(error);
+  }
+}
+  </script>
 </Layout>

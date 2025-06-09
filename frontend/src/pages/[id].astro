@@ -2,9 +2,15 @@
 import Layout from "@/layouts/Layout.astro";
 
 export const prerender = false;
+            import {Fragment} from "astro/jsx-runtime";
 
 const { params } = Astro;
 const id = params.id;
+
+type Image = {
+  id: number | string;
+  url: string;
+};
 
 type Property = {
   id: number | string;
@@ -17,8 +23,11 @@ type Property = {
   floor: string;
   elevator: boolean;
   price: number;
-  location: string;
-  imageUrl: string;
+  location: {
+    id: number | string;
+    name: string;
+  };
+  images: Image[];
   publishDate: string;
   type: "SALE" | "RENT";
 };
@@ -36,46 +45,94 @@ try {
   console.error("Error fetching property", error);
 }
 
-const isHouse = property?.title.toLowerCase().includes("house");
+const isHouse = property?.title?.toLowerCase().includes("house");
+
+const firstImage =
+  property?.images && property.images.length > 0 ? property.images[0] : null;
+const otherImages =
+  property?.images && property.images.length > 1
+    ? property.images.slice(1)
+    : [];
 ---
 
 <Layout title={property ? property.title : "Property Not Found"}>
-  {property ? (
-    <main class="max-w-5xl mx-auto mt-16 px-4">
-      <div class="flex justify-center mb-10">
-        <img
-          src={`http://localhost:8081${property.imageUrl}`}
-          alt={property.title}
-          class="w-full max-w-3xl rounded-md object-cover object-center bg-white shadow-md"
-        />
-      </div>
-
-      <section class="text-center">
-        <h1 class="text-5xl font-bold mb-3">{property.title}</h1>
-        <p class="uppercase text-sm text-blue-500 tracking-wide font-semibold mb-6">
-          {property.type === "SALE" ? "For Sale" : "For Rent"} &bull; {property.location}
-        </p>
-
-        <div class="text-4xl font-extrabold text-slate-900 mb-10">
-          € {property.price.toLocaleString()}
+  {
+    property ? (
+      <main class="max-w-5xl mx-auto mt-16 px-4">
+        <div class="flex justify-center mb-10">
+          {firstImage && (
+            <img
+              src={`http://localhost:8081/uploads/${firstImage.url}`}
+              alt={property.title}
+              class="w-full max-w-3xl rounded-md object-cover object-center bg-white shadow-md"
+              loading="lazy"
+            />
+          )}
         </div>
 
-        <ul class="max-w-xl mx-auto space-y-4 text-gray-700 text-lg font-medium text-left">
-          <li><strong>Bedrooms:</strong> {property.bedrooms}</li>
-          <li><strong>Bathrooms:</strong> {property.bathrooms}</li>
-          <li><strong>Square Meters:</strong> {property.sqmt} m²</li>
-          {!isHouse && <li><strong>Floor:</strong> {property.floor}</li>}
-          {!isHouse && <li><strong>Elevator:</strong> {property.elevator ? "Yes" : "No"}</li>}
-          {!isHouse && <li><strong>Parking:</strong> {property.parking ? "Yes" : "No"}</li>}
-          <li><strong>Pool:</strong> {property.pool ? "Yes" : "No"}</li>
-        </ul>
+        {otherImages.length > 0 && (
+          <div class="grid grid-cols-3 gap-4 mb-10 max-w-3xl mx-auto object-center">
+            {otherImages.map((image) => (
+              <Fragment key={image.id}>
+                <img
+                  src={`http://localhost:8081/uploads/${image.url}`}
+                  alt={`${property.title} image`}
+                  class="rounded-md object-cover cursor-pointer"
+                  loading="lazy"
+                />
+              </Fragment>
+            ))}
+          </div>
+        )}
 
-        <time class="block mt-12 text-gray-400 text-sm">
-          Listed on {new Date(property.publishDate).toLocaleDateString()}
-        </time>
-      </section>
-    </main>
-  ) : (
-    <p class="text-center mt-16 text-red-500">Property Not Found.</p>
-  )}
+        <section class="text-center">
+          <h1 class="text-5xl font-bold mb-3">{property.title}</h1>
+          <p class="uppercase text-sm text-blue-500 tracking-wide font-semibold mb-6">
+            {property.type === "SALE" ? "For Sale" : "For Rent"} &bull;{" "}
+            {property.location.name}
+          </p>
+
+          <div class="text-4xl font-extrabold text-slate-900 mb-10">
+            € {property.price.toLocaleString()}
+          </div>
+
+          <ul class="max-w-xl mx-auto space-y-4 text-gray-700 text-lg font-medium text-left">
+            <li>
+              <strong>Bedrooms:</strong> {property.bedrooms}
+            </li>
+            <li>
+              <strong>Bathrooms:</strong> {property.bathrooms}
+            </li>
+            <li>
+              <strong>Square Meters:</strong> {property.sqmt} m²
+            </li>
+            {!isHouse && (
+              <li>
+                <strong>Floor:</strong> {property.floor}
+              </li>
+            )}
+            {!isHouse && (
+              <li>
+                <strong>Elevator:</strong> {property.elevator ? "Yes" : "No"}
+              </li>
+            )}
+            {!isHouse && (
+              <li>
+                <strong>Parking:</strong> {property.parking ? "Yes" : "No"}
+              </li>
+            )}
+            <li>
+              <strong>Pool:</strong> {property.pool ? "Yes" : "No"}
+            </li>
+          </ul>
+
+          <time class="block mt-12 text-gray-400 text-sm">
+            Listed on {new Date(property.publishDate).toLocaleDateString()}
+          </time>
+        </section>
+      </main>
+    ) : (
+      <p class="text-center mt-16 text-red-500">Property Not Found.</p>
+    )
+  }
 </Layout>

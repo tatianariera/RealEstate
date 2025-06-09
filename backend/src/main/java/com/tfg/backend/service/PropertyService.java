@@ -1,7 +1,13 @@
 package com.tfg.backend.service;
 
+import com.tfg.backend.entity.Employee;
 import com.tfg.backend.entity.Property;
+import com.tfg.backend.repository.EmployeeRepository;
 import com.tfg.backend.repository.PropertyRepository;
+import com.tfg.backend.entity.Location;
+import com.tfg.backend.repository.LocationRepository;
+
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -24,11 +30,27 @@ public class PropertyService {
         return propertyRepository.findByTypeOrderByPublishDateDesc(Property.PropertyType.RENT);
     }
 
-    public Optional<Property> getPropertyById(Long id) {
+    public Optional<Property> getPropertyById(Integer id) {
         return propertyRepository.findById(id);
     }
 
     public Property saveProperty(Property property) {
         return propertyRepository.save(property);
     }
+
+    @Autowired
+    private EmployeeRepository employeeRepository;
+
+    public Optional<Employee> findEmployeeById(Integer id) {
+        return employeeRepository.findById(id);
+    }
+
+    @Autowired
+    private LocationRepository locationRepository;
+    public Optional<Location> findLocationById(Integer locationId) {
+        return locationRepository.findById(locationId);
+    }
+
+
+
 }
