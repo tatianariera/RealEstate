@@ -7,10 +7,18 @@ services:
     environment:
       MYSQL_ROOT_PASSWORD: admin
       MYSQL_DATABASE: inmobiliaria
+      MYSQL_USER: dev
+      MYSQL_PASSWORD: devpass
     ports:
       - "3306:3306"
     volumes:
       - mysql-data:/var/lib/mysql
+      - ./database/inmobiliaria_dump.sql:/docker-entrypoint-initdb.d/init.sql
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
+      interval: 5s
+      timeout: 10s
+      retries: 5
     networks:
       - tfg-network
 
@@ -20,8 +28,13 @@ services:
     restart: always
     ports:
       - "8080:8080"
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:mysql://tfg-mysql:3306/inmobiliaria
+      SPRING_DATASOURCE_USERNAME: dev
+      SPRING_DATASOURCE_PASSWORD: devpass
     depends_on:
-      - tfg-mysql
+      tfg-mysql:
+        condition: service_healthy
     networks:
       - tfg-network
 
