@@ -10,34 +10,29 @@ const menuitems = [
   },
   { title: "About", path: "/about" },
   { title: "Contact", path: "/contact" },
-
 ];
 ---
 
 <style>
-  .menu-enter {
-    max-height: 0;
-    overflow: hidden;
-    transition: max-height 0.3s ease;
-  }
-  .menu-enter-active {
-    max-height: 500px;
+  /* Modal backdrop */
+  .modal-backdrop {
+    background-color: rgba(0,0,0,0.5);
   }
 </style>
 
 <header>
-  <div
-    class="container mx-auto flex flex-wrap items-center justify-between p-4">
+  <div class="container mx-auto flex flex-wrap items-center justify-between p-4">
     <a href="/" class="text-lg font-bold text-slate-800">
       Tatiana's <span class="text-slate-500">Properties</span>
     </a>
 
-    <!-- Botón toggle móvil -->
+    <!-- Toggle móvil -->
     <button
       id="menu-toggle"
       aria-label="Toggle menu"
       class="block lg:hidden text-gray-700 focus:outline-none"
-      type="button">
+      type="button"
+    >
       <svg
         class="w-6 h-6"
         fill="none"
@@ -45,7 +40,8 @@ const menuitems = [
         stroke-width="2"
         stroke-linecap="round"
         stroke-linejoin="round"
-        viewBox="0 0 24 24">
+        viewBox="0 0 24 24"
+      >
         <path d="M4 6h16M4 12h16M4 18h16"></path>
       </svg>
     </button>
@@ -53,75 +49,165 @@ const menuitems = [
     <!-- Menú -->
     <nav
       id="menu"
-      class="hidden w-full lg:flex lg:w-auto lg:items-center lg:justify-center">
-      <ul class="flex flex-col lg:flex-row lg:gap-6 items-center">
-        {
-          menuitems.map((item, index) => (
-            <li class="relative">
-              {item.children ? (
-                <details class="group lg:inline-block">
-                  <summary
-                    class="cursor-pointer flex items-center gap-1 lg:inline-flex lg:items-center h-10 px-3"
-                    style="list-style: none;">
-                    {item.title}
-                    <svg
-                      class="w-4 h-4 text-gray-600 group-open:rotate-180 transition-transform duration-200"
-                      fill="none"
-                      stroke="currentColor"
-                      stroke-width="2"
-                      stroke-linecap="round"
-                      stroke-linejoin="round"
-                      viewBox="0 0 24 24">
-                      <path d="M6 9l6 6 6-6" />
-                    </svg>
-                  </summary>
-
-                  <ul class="pl-4 lg:absolute lg:left-0 lg:top-full lg:bg-white lg:shadow-md lg:mt-2 lg:rounded lg:p-2 lg:min-w-[8rem]">
-                    {item.children.map((child, cIndex) => (
-                      <li>
-                        <a
-                          href={child.path}
-                          class="block py-1 px-2 hover:bg-gray-100 rounded">
-                          {child.title}
-                        </a>
-                      </li>
-                    ))}
-                  </ul>
-                </details>
-              ) : (
-                <a
-                  href={item.path}
-                  class="block h-10 px-3 flex items-center hover:text-gray-900">
+      class="hidden w-full lg:flex lg:w-auto lg:items-center lg:justify-center"
+    >
+      <ul class="flex flex-col lg:flex-row lg:gap-6 items-center w-full lg:w-auto">
+        {menuitems.map((item) => (
+          <li class="relative w-full lg:w-auto">
+            {item.children ? (
+              <details class="group lg:inline-block w-full">
+                <summary
+                  class="cursor-pointer flex items-center justify-between lg:justify-center gap-1 w-full lg:w-auto h-10 px-3 list-none"
+                >
                   {item.title}
-                </a>
-              )}
-            </li>
-          ))
-        }
-      </ul>
+                  <svg
+                    class="w-4 h-4 text-gray-600 group-open:rotate-180 transition-transform duration-200"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="2"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    viewBox="0 0 24 24"
+                  >
+                    <path d="M6 9l6 6 6-6" />
+                  </svg>
+                </summary>
 
-      {/* Botones móvil */}
-      <div class="flex flex-col gap-2 mt-4 lg:hidden">
-        <a
-          href="/login"
-          class="text-center py-2 bg-gray-700 text-white rounded">
-          Employees
-        </a>
-      </div>
+                <ul
+                  class="pl-4 lg:absolute lg:left-0 lg:top-full lg:bg-white lg:shadow-md lg:mt-2 lg:rounded lg:p-2 lg:min-w-[8rem] lg:z-20"
+                >
+                  {item.children.map((child) => (
+                    <li>
+                      <a
+                        href={child.path}
+                        class="block py-1 px-2 hover:bg-gray-100 rounded"
+                        >{child.title}</a
+                      >
+                    </li>
+                  ))}
+                </ul>
+              </details>
+            ) : (
+              <a
+                href={item.path}
+                class="block h-10 px-3 flex items-center hover:text-gray-900"
+                >{item.title}</a
+              >
+            )}
+          </li>
+        ))}
+
+        {/* Employees móvil (abre modal) */}
+        <li class="lg:hidden mt-4">
+          <button
+            id="employees-mobile"
+            class="block py-2 bg-gray-700 text-white text-center rounded w-full"
+            type="button"
+          >
+            Employees
+          </button>
+        </li>
+      </ul>
     </nav>
 
-    {/* Botones escritorio */}
+    {/* Employees escritorio (abre modal) */}
     <div class="hidden lg:flex gap-4 items-center">
-      <a href="/login" class="text-gray-700 hover:text-gray-900">Employees</a>
+      <button
+        id="employees-desktop"
+        class="text-gray-700 hover:text-gray-900 focus:outline-none"
+        type="button"
+      >
+        Employees
+      </button>
+    </div>
+  </div>
+
+  <!-- Modal clave acceso -->
+  <div
+    id="access-modal"
+    class="fixed inset-0 hidden items-center justify-center modal-backdrop z-50"
+  >
+    <div class="bg-white rounded-lg shadow-lg p-6 w-80 max-w-full">
+      <h2 class="text-lg font-semibold mb-4">Enter Access Key</h2>
+      <input
+        id="access-key"
+        type="password"
+        placeholder="Access key"
+        class="w-full border border-gray-300 rounded px-3 py-2 mb-4 focus:outline-none focus:ring-2 focus:ring-gray-500"
+      />
+      <div class="flex justify-end gap-2">
+        <button
+          id="cancel-modal"
+          class="px-4 py-2 rounded bg-gray-300 hover:bg-gray-400"
+          type="button"
+        >
+          Cancel
+        </button>
+        <button
+          id="submit-key"
+          class="px-4 py-2 rounded bg-gray-600 text-white"
+          type="button"
+        >
+          Submit
+        </button>
+      </div>
+      <p id="error-msg" class="text-red-600 mt-3 hidden">Incorrect key. Try again.</p>
+
+      <!-- Opciones ocultas, se mostrarán si clave correcta -->
+      <div id="employee-options" class="mt-6 hidden flex flex-col gap-2">
+        <a href="/edit" class="text-gray-700 hover:underline">Edit Property</a>
+        <a href="/create" class="text-gray-700 hover:underline">New Property</a>
+      </div>
     </div>
   </div>
 
   <script is:inline>
     const toggleBtn = document.getElementById("menu-toggle");
     const menu = document.getElementById("menu");
+    const modal = document.getElementById("access-modal");
+    const keyInput = document.getElementById("access-key");
+    const submitBtn = document.getElementById("submit-key");
+    const cancelBtn = document.getElementById("cancel-modal");
+    const errorMsg = document.getElementById("error-msg");
+    const employeeOptions = document.getElementById("employee-options");
 
+    // Toggle menú móvil
     toggleBtn.addEventListener("click", () => {
       menu.classList.toggle("hidden");
+    });
+
+    // Abrir modal al clicar Employees (móvil y desktop)
+    document.getElementById("employees-mobile").addEventListener("click", openModal);
+    document.getElementById("employees-desktop").addEventListener("click", openModal);
+
+    function openModal() {
+      errorMsg.classList.add("hidden");
+      employeeOptions.classList.add("hidden");
+      keyInput.value = "";
+      modal.classList.remove("hidden");
+      keyInput.focus();
+    }
+
+    cancelBtn.addEventListener("click", () => {
+      modal.classList.add("hidden");
+    });
+
+    submitBtn.addEventListener("click", () => {
+      const key = keyInput.value.trim();
+
+      // Aquí pones la clave correcta
+      const correctKey = "admin123";
+
+      if (key === correctKey) {
+        errorMsg.classList.add("hidden");
+        employeeOptions.classList.remove("hidden");
+        // Opcional: ocultar input y botones de submit para solo mostrar opciones
+        keyInput.style.display = "none";
+        submitBtn.style.display = "none";
+        cancelBtn.textContent = "Close";
+      } else {
+        errorMsg.classList.remove("hidden");
+      }
     });
   </script>
 </header>

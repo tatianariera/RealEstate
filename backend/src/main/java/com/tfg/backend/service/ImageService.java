@@ -1,35 +1,45 @@
 package com.tfg.backend.service;
 
+import com.tfg.backend.entity.Image;
+import com.tfg.backend.repository.ImageRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.io.File;
 import java.io.IOException;
-import java.nio.file.*;
-import java.util.UUID;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 
 @Service
 public class ImageService {
 
-    // Ruta absoluta donde guardar las imágenes
-    private final Path uploadDir = Paths.get("C:/Users/tatia/Documents/GitHub/TFG/uploads");
+    private final ImageRepository imageRepository;
+
+    // Carpeta donde se guardarán las imágenes
+    private static final String UPLOAD_DIR = "uploads/";
+
+    public ImageService(ImageRepository imageRepository) {
+        this.imageRepository = imageRepository;
+    }
 
     public String saveImage(MultipartFile file) throws IOException {
-        if (!Files.exists(uploadDir)) {
-            Files.createDirectories(uploadDir);
+        // Crear la carpeta si no existe
+        File uploadDir = new File(UPLOAD_DIR);
+        if (!uploadDir.exists()) {
+            uploadDir.mkdirs();
         }
 
-        String extension = "";
-        String originalFilename = file.getOriginalFilename();
-        if (originalFilename != null && originalFilename.contains(".")) {
-            extension = originalFilename.substring(originalFilename.lastIndexOf("."));
-        }
+        // Guardar archivo
+        String fileName = System.currentTimeMillis() + "_" + file.getOriginalFilename();
+        Path filePath = Paths.get(UPLOAD_DIR, fileName);
+        Files.write(filePath, file.getBytes());
 
-        String filename = UUID.randomUUID().toString() + extension;
+        // Guardar la URL en la base de datos
+        Image image = new Image();
+        image.setUrl("/" + UPLOAD_DIR + fileName); // puedes ajustar esta URL según tu frontend
+        imageRepository.save(image);
 
-        Path filepath = uploadDir.resolve(filename);
-
-        Files.copy(file.getInputStream(), filepath, StandardCopyOption.REPLACE_EXISTING);
-
-        return "/images/" + filename;
+        return image.getUrl();
     }
 }

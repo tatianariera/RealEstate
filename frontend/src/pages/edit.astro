@@ -1,0 +1,103 @@
+---
+// src/pages/edit-properties.astro
+import Container from "@/components/container.astro";
+import Sectionhead from "@/components/sectionhead.astro";
+import Layout from "@/layouts/Layout.astro";
+
+const propertiesUrl = "http://localhost:8081/api/properties";
+---
+
+<Layout title="Edit Properties">
+  <Container>
+    <Sectionhead>
+      <Fragment slot="title">Manage Properties</Fragment>
+      <Fragment slot="desc">
+        Select a property to edit or delete.
+      </Fragment>
+    </Sectionhead>
+
+    <div id="properties-grid" class="mt-10 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+      <!-- Properties will load here -->
+    </div>
+  </Container>
+
+  <script is:inline>
+    // Fallback image URL that will always work
+    const FALLBACK_IMAGE = "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 300 200'%3E%3Crect width='300' height='200' fill='%23f0f0f0'/%3E%3Ctext x='50%' y='50%' font-family='sans-serif' font-size='16' text-anchor='middle' fill='%23999'%3ENo Image%3C/text%3E%3C/svg%3E";
+
+    async function loadProperties() {
+      try {
+        const response = await fetch("http://localhost:8081/api/properties");
+        if (!response.ok) {
+          alert("Error loading properties");
+          return;
+        }
+        const properties = await response.json();
+        const grid = document.getElementById("properties-grid");
+
+        if (properties.length === 0) {
+          grid.innerHTML = "<p class='text-center col-span-full'>No properties found.</p>";
+          return;
+        }
+
+        properties.forEach((property) => {
+          const card = document.createElement("div");
+          card.className = "border border-slate-300 rounded-lg overflow-hidden shadow hover:shadow-md transition";
+
+          // Handle image URL safely
+          let imageUrl = FALLBACK_IMAGE;
+          if (property.images && property.images.length > 0 && property.images[0].url) {
+            // Check if URL is already complete or needs prefix
+            imageUrl = property.images[0].url.startsWith('http') 
+              ? property.images[0].url 
+              : `http://localhost:8081/uploads/${property.images[0].url}`;
+          }
+
+          card.innerHTML = `
+            <img src="${imageUrl}" alt="${property.title}" class="w-full h-40 object-cover" onerror="this.src='${FALLBACK_IMAGE}'">
+            <div class="p-4 flex flex-col gap-2">
+              <h3 class="text-lg font-semibold text-slate-800">${property.title}</h3>
+              <p class="text-sm text-slate-600">${property.price.toLocaleString()} € · ${property.sqmt} m²</p>
+              <div class="flex gap-2 mt-2">
+                <a href="/edit/${property.id}" class="flex-1 bg-gray-600 text-white text-sm px-3 py-2 rounded text-center">Edit</a>
+                <button onclick="deleteProperty(${property.id})" class="flex-1 bg-red-600 hover:bg-red-700 text-white text-sm px-3 py-2 rounded">Delete</button>
+              </div>
+            </div>
+          `;
+
+          grid.appendChild(card);
+        });
+      } catch (error) {
+        console.error("Error fetching properties", error);
+        alert("Could not load properties.");
+      }
+    }
+
+    async function deleteProperty(id) {
+      if (!confirm("Are you sure you want to delete this property?")) return;
+
+      try {
+        const res = await fetch(`http://localhost:8081/api/properties/${id}`, {
+          method: "DELETE",
+        });
+
+        if (!res.ok) {
+          const msg = await res.text();
+          alert("Failed to delete: " + msg);
+          return;
+        }
+
+        alert("Property deleted successfully");
+        window.location.reload(); // Refresh the list
+      } catch (error) {
+        console.error("Delete error:", error);
+        alert("Error deleting property.");
+      }
+    }
+
+    // Make deleteProperty available globally
+    window.deleteProperty = deleteProperty;
+
+    document.addEventListener("DOMContentLoaded", loadProperties);
+  </script>
+</Layout>
