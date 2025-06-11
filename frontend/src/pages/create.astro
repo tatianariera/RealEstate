@@ -17,7 +17,10 @@ const locationsUrl = "http://localhost:8081/api/locations"; // Asumo que tienes 
       </Fragment>
     </Sectionhead>
 
-    <form id="property-form" class="max-w-2xl mx-auto mt-10 grid gap-6" onsubmit="submitProperty(event)">
+    <form
+      id="property-form"
+      class="max-w-2xl mx-auto mt-10 grid gap-6"
+      onsubmit="submitProperty(event)">
       <div class="grid gap-2">
         <label for="title" class="font-semibold text-slate-700">Title</label>
         <input
@@ -30,20 +33,23 @@ const locationsUrl = "http://localhost:8081/api/locations"; // Asumo que tienes 
       </div>
 
       <div class="grid gap-2">
-        <label for="locationId" class="font-semibold text-slate-700">Location</label>
+        <label for="locationId" class="font-semibold text-slate-700"
+          >Location</label
+        >
         <select
           name="locationId"
           id="locationId"
           required
-          class="input px-4 py-2 bg-slate-100 border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-slate-500 transition"
-        >
+          class="input px-4 py-2 bg-slate-100 border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-slate-500 transition">
           <option value="">Select a location</option>
         </select>
       </div>
 
       <div class="grid grid-cols-2 gap-4">
         <div class="grid gap-2">
-          <label for="price" class="font-semibold text-slate-700">Price (€)</label>
+          <label for="price" class="font-semibold text-slate-700"
+            >Price (€)</label
+          >
           <input
             type="number"
             name="price"
@@ -55,7 +61,9 @@ const locationsUrl = "http://localhost:8081/api/locations"; // Asumo que tienes 
           />
         </div>
         <div class="grid gap-2">
-          <label for="sqmt" class="font-semibold text-slate-700">Square meters</label>
+          <label for="sqmt" class="font-semibold text-slate-700"
+            >Square meters</label
+          >
           <input
             type="number"
             name="sqmt"
@@ -70,7 +78,9 @@ const locationsUrl = "http://localhost:8081/api/locations"; // Asumo que tienes 
 
       <div class="grid grid-cols-3 gap-4">
         <div class="grid gap-2">
-          <label for="bedrooms" class="font-semibold text-slate-700">Bedrooms</label>
+          <label for="bedrooms" class="font-semibold text-slate-700"
+            >Bedrooms</label
+          >
           <input
             type="number"
             name="bedrooms"
@@ -81,7 +91,9 @@ const locationsUrl = "http://localhost:8081/api/locations"; // Asumo que tienes 
           />
         </div>
         <div class="grid gap-2">
-          <label for="bathrooms" class="font-semibold text-slate-700">Bathrooms</label>
+          <label for="bathrooms" class="font-semibold text-slate-700"
+            >Bathrooms</label
+          >
           <input
             type="number"
             name="bathrooms"
@@ -135,42 +147,42 @@ const locationsUrl = "http://localhost:8081/api/locations"; // Asumo que tienes 
           name="type"
           id="type"
           required
-          class="input px-4 py-2 bg-slate-100 border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-slate-500 transition"
-        >
+          class="input px-4 py-2 bg-slate-100 border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-slate-500 transition">
           <option value="RENT">Rent</option>
           <option value="SALE">Sale</option>
         </select>
       </div>
 
       <div class="grid gap-2">
-        <label for="employeeId" class="font-semibold text-slate-700">Assigned Employee</label>
+        <label for="employeeId" class="font-semibold text-slate-700"
+          >Assigned Employee</label
+        >
         <select
           name="employeeId"
           id="employeeId"
           required
-          class="input px-4 py-2 bg-slate-100 border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-slate-500 transition"
-        >
+          class="input px-4 py-2 bg-slate-100 border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-slate-500 transition">
           <option value="">Select an employee</option>
         </select>
       </div>
 
       <div class="grid gap-2">
-        <label for="imageUrls" class="font-semibold text-slate-700">Image URLs (comma separated)</label>
-<input
-  type="text"
-  name="imageUrls"
-  id="imageUrls"
-  placeholder="sale....png, sale....png"
-  class="input px-4 py-2 bg-slate-100 border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-slate-500 transition"
-/>
-
+        <label for="imageUrls" class="font-semibold text-slate-700"
+          >Image URLs (comma separated)</label
+        >
+        <input
+          type="text"
+          name="imageUrls"
+          id="imageUrls"
+          placeholder="sale....png, sale....png"
+          class="input px-4 py-2 bg-slate-100 border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-slate-500 transition"
+        />
       </div>
 
       <div class="pt-4">
         <button
           type="submit"
-          class="w-full bg-gray-700 text-white font-semibold py-3 px-6 rounded-lg transition hover:bg-gray-800"
-        >
+          class="w-full bg-blue-400 text-white font-semibold py-3 px-6 rounded-lg transition hover:bg-gray-800">
           Save Property
         </button>
       </div>
@@ -213,7 +225,7 @@ const locationsUrl = "http://localhost:8081/api/locations"; // Asumo que tienes 
         locations.forEach((location) => {
           const option = document.createElement("option");
           option.value = location.id;
-          option.textContent = location.name; 
+          option.textContent = location.name;
           select.appendChild(option);
         });
       } catch (error) {
@@ -227,52 +239,55 @@ const locationsUrl = "http://localhost:8081/api/locations"; // Asumo que tienes 
       loadLocations();
     });
 
-async function submitProperty(event) {
-  event.preventDefault();
-  const form = event.target;
+    async function submitProperty(event) {
+      event.preventDefault();
+      const form = event.target;
 
-  const rawImageNames = form.imageUrls.value.trim();
-  const imageUrls = rawImageNames
-    ? rawImageNames.split(",").map(name => `${name.trim()}`).filter(url => url.length > 0)
-    : [];
+      const rawImageNames = form.imageUrls.value.trim();
+      const imageUrls = rawImageNames
+        ? rawImageNames
+            .split(",")
+            .map((name) => `${name.trim()}`)
+            .filter((url) => url.length > 0)
+        : [];
 
-  const data = {
-    title: form.title.value,
-    locationId: parseInt(form.locationId.value),
-    price: parseFloat(form.price.value),
-    sqmt: parseFloat(form.sqmt.value),
-    bedrooms: parseInt(form.bedrooms.value),
-    bathrooms: parseInt(form.bathrooms.value),
-    floor: form.floor.value,
-    parking: form.parking.checked,
-    pool: form.pool.checked,
-    elevator: form.elevator.checked,
-    type: form.type.value,
-    employeeId: parseInt(form.employeeId.value),
-    imageUrls: imageUrls,
-  };
+      const data = {
+        title: form.title.value,
+        locationId: parseInt(form.locationId.value),
+        price: parseFloat(form.price.value),
+        sqmt: parseFloat(form.sqmt.value),
+        bedrooms: parseInt(form.bedrooms.value),
+        bathrooms: parseInt(form.bathrooms.value),
+        floor: form.floor.value,
+        parking: form.parking.checked,
+        pool: form.pool.checked,
+        elevator: form.elevator.checked,
+        type: form.type.value,
+        employeeId: parseInt(form.employeeId.value),
+        imageUrls: imageUrls,
+      };
 
-  try {
-    const res = await fetch("http://localhost:8081/api/properties/new", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(data),
-    });
+      try {
+        const res = await fetch("http://localhost:8081/api/properties/new", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(data),
+        });
 
-    if (!res.ok) {
-      const error = await res.text();
-      alert("Error saving property: " + error);
-      return;
+        if (!res.ok) {
+          const error = await res.text();
+          alert("Error saving property: " + error);
+          return;
+        }
+
+        alert("Property saved successfully");
+        form.reset();
+      } catch (error) {
+        alert("Error sending request");
+        console.error(error);
+      }
     }
-
-    alert("Property saved successfully");
-    form.reset();
-  } catch (error) {
-    alert("Error sending request");
-    console.error(error);
-  }
-}
   </script>
 </Layout>
