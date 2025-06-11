@@ -4,11 +4,19 @@ import mdx from "@astrojs/mdx";
 import sitemap from "@astrojs/sitemap";
 import icon from "astro-icon";
 
+import netlify from "@astrojs/netlify";
+
 export default defineConfig({
   site: "https://astroship.web3templates.com",
-  output: "server", // ✅ importante para SSR
+
+  // ✅ importante para SSR
+  output: "server",
+
   integrations: [mdx(), sitemap(), icon()],
+
   vite: {
     plugins: [tailwindcss()],
   },
+
+  adapter: netlify(),
 });

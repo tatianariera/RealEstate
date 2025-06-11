@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 import lombok.Data;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
@@ -22,7 +23,7 @@ public class Property {
     private int bathrooms;
     private boolean parking;
     private boolean pool;
-    private double sqmt;
+    private double sqmt;  // double para precisión
     private String floor;
     private boolean elevator;
     private double price;
@@ -41,11 +42,10 @@ public class Property {
 
     @OneToMany(mappedBy = "property", cascade = CascadeType.ALL, orphanRemoval = true)
     @JsonManagedReference
-    private List<Image> images;
-
+ private List<Image> images = new ArrayList<>(); 
+ 
     @ManyToOne
     @JoinColumn(name = "employee_id")
-    @JsonIgnoreProperties("properties") 
+    @JsonIgnoreProperties("properties")
     private Employee employee;
-
 }

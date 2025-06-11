@@ -1,0 +1,242 @@
+---
+import Layout from "@/layouts/Layout.astro";
+import { Fragment } from "astro/jsx-runtime";
+
+export const prerender = false;
+
+const { params } = Astro;
+const id = params.id;
+
+type Image = {
+  id: number | string;
+  url: string;
+};
+
+type Employee = {
+  id: number | string;
+  email?: string;
+};
+
+type Property = {
+  id: number | string;
+  title: string;
+  bedrooms: number;
+  bathrooms: number;
+  parking: boolean;
+  pool: boolean;
+  sqmt: number;
+  floor: string;
+  elevator: boolean;
+  price: number;
+  location: {
+    id: number | string;
+    name: string;
+  };
+  employee: Employee;
+  type: "SALE" | "RENT";
+  images: Image[];
+};
+
+let property: Property | null = null;
+
+try {
+  const res = await fetch(`http://localhost:8081/api/properties/${id}`);
+  if (res.ok) {
+    property = await res.json();
+  } else {
+    console.error("Failed to fetch property", res.status);
+  }
+} catch (error) {
+  console.error("Error fetching property", error);
+}
+
+const imageUrls = property?.images?.map(img => img.url).join(", ") ?? "";
+const employeeEmail = property?.employee?.email ?? "";
+const locationName = property?.location?.name ?? "";
+---
+
+<Layout title={property ? `Edit: ${property.title}` : "Property Not Found"}>
+  {
+    property ? (
+      <main class="max-w-3xl mx-auto mt-16 px-4">
+        <h1 class="text-3xl font-bold mb-6">Edit Property</h1>
+
+        <form 
+          id="edit-form" 
+          class="space-y-6 bg-white p-6 rounded shadow"
+        >
+          <input 
+            type="hidden" 
+            id="id" 
+            value={property.id} 
+            data-employee-id={property.employee?.id ?? ""} 
+            data-location-id={property.location?.id ?? ""} 
+          />
+
+          <label class="block">
+            <span class="text-sm font-semibold">Title</span>
+            <input type="text" id="title" class="mt-1 block w-full rounded border border-gray-300 px-3 py-2" value={property.title} required />
+          </label>
+
+          <label class="block">
+            <span class="text-sm font-semibold">Bedrooms</span>
+            <input type="number" id="bedrooms" class="mt-1 block w-full rounded border border-gray-300 px-3 py-2" value={property.bedrooms} min="0" required />
+          </label>
+
+          <label class="block">
+            <span class="text-sm font-semibold">Bathrooms</span>
+            <input type="number" id="bathrooms" class="mt-1 block w-full rounded border border-gray-300 px-3 py-2" value={property.bathrooms} min="0" required />
+          </label>
+
+          <label class="block flex items-center gap-2">
+            <input type="checkbox" id="parking" checked={property.parking} class="mt-1" />
+            <span class="text-sm font-semibold">Parking</span>
+          </label>
+
+          <label class="block flex items-center gap-2">
+            <input type="checkbox" id="pool" checked={property.pool} class="mt-1" />
+            <span class="text-sm font-semibold">Pool</span>
+          </label>
+
+          <label class="block">
+            <span class="text-sm font-semibold">Size (m²)</span>
+            <input type="number" id="sqmt" class="mt-1 block w-full rounded border border-gray-300 px-3 py-2" value={property.sqmt} min="0" required />
+          </label>
+
+          <label class="block">
+            <span class="text-sm font-semibold">Floor</span>
+            <input type="text" id="floor" class="mt-1 block w-full rounded border border-gray-300 px-3 py-2" value={property.floor} />
+          </label>
+
+          <label class="block flex items-center gap-2">
+            <input type="checkbox" id="elevator" checked={property.elevator} class="mt-1" />
+            <span class="text-sm font-semibold">Elevator</span>
+          </label>
+
+          <label class="block">
+            <span class="text-sm font-semibold">Price (€)</span>
+            <input type="number" id="price" class="mt-1 block w-full rounded border border-gray-300 px-3 py-2" value={property.price} min="0" required />
+          </label>
+
+          <label class="block">
+            <span class="text-sm font-semibold">Type</span>
+            <select id="type" class="mt-1 block w-full rounded border border-gray-300 px-3 py-2" required value={property.type}>
+              <option value="SALE">Sale</option>
+              <option value="RENT">Rent</option>
+            </select>
+          </label>
+
+          <label class="block">
+            <span class="text-sm font-semibold">Image URLs (comma separated)</span>
+            <input type="text" id="imageUrls" class="mt-1 block w-full rounded border border-gray-300 px-3 py-2" value={imageUrls} />
+          </label>
+
+          <p class="text-sm font-semibold">
+            Assigned Real Estate Agent: <span class="font-normal">{employeeEmail}</span>
+          </p>
+
+          <p class="text-sm font-semibold">
+            Location: <span class="font-normal">{locationName}</span>
+          </p>
+
+          <button type="submit" class="w-full bg-blue-600 text-white rounded px-4 py-2 font-semibold hover:bg-blue-700">
+            Update Property
+          </button>
+        </form>
+
+        <script is:inline>
+          document.addEventListener("DOMContentLoaded", () => {
+            const form = document.getElementById("edit-form");
+
+            if (form) {
+              form.addEventListener("submit", async (event) => {
+                event.preventDefault();
+
+                // Validación básica
+                const validateNumber = (value, fieldName) => {
+                  const num = Number(value);
+                  if (isNaN(num)) {
+                    alert(`Please enter a valid number for ${fieldName}`);
+                    return null;
+                  }
+                  return num;
+                };
+
+                // Obtener valores del formulario
+                const id = form.querySelector("#id").value;
+                const employeeId = Number(form.querySelector("#id").dataset.employeeId);
+                const locationId = Number(form.querySelector("#id").dataset.locationId);
+                const title = form.querySelector("#title").value.trim();
+                const bedrooms = validateNumber(form.querySelector("#bedrooms").value, "bedrooms");
+                const bathrooms = validateNumber(form.querySelector("#bathrooms").value, "bathrooms");
+                const sqmt = validateNumber(form.querySelector("#sqmt").value, "size");
+                const price = validateNumber(form.querySelector("#price").value, "price");
+                
+                if (bedrooms === null || bathrooms === null || sqmt === null || price === null) {
+                  return;
+                }
+
+                const parking = form.querySelector("#parking").checked;
+                const pool = form.querySelector("#pool").checked;
+                const floor = form.querySelector("#floor").value.trim();
+                const elevator = form.querySelector("#elevator").checked;
+                const type = form.querySelector("#type").value;
+                const imageUrlsString = form.querySelector("#imageUrls").value.trim();
+
+                // Procesar URLs de imágenes
+                const imageUrls = imageUrlsString ? 
+                  imageUrlsString.split(",").map(url => url.trim()).filter(url => url) : 
+                  [];
+
+                // Preparar cuerpo de la solicitud
+                const body = {
+                  title,
+                  bedrooms,
+                  bathrooms,
+                  parking,
+                  pool,
+                  sqmt,
+                  floor,
+                  elevator,
+                  price,
+                  type,
+                  imageUrls,
+                  employeeId,
+                  locationId
+                };
+
+                console.log("Sending data:", JSON.stringify(body, null, 2));
+
+                try {
+                  const response = await fetch(`http://localhost:8081/api/properties/${id}`, {
+                    method: "PUT",
+                    headers: {
+                      "Content-Type": "application/json"
+                    },
+                    body: JSON.stringify(body)
+                  });
+
+                  if (response.ok) {
+                    alert("Property updated successfully");
+                    window.location.href = `/`;
+                  } else {
+                    const errorData = await response.json();
+                    alert(`Error: ${errorData.message || "Failed to update property"}`);
+                  }
+                } catch (error) {
+                  console.error("Error:", error);
+                  alert("Error connecting to the server");
+                }
+              });
+            }
+          });
+        </script>
+      </main>
+    ) : (
+      <main class="max-w-3xl mx-auto mt-16 px-4">
+        <h1 class="text-3xl font-bold mb-6">Property Not Found</h1>
+        <p>The property with ID {id} does not exist.</p>
+      </main>
+    )
+  }
+</Layout>
