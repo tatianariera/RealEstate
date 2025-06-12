@@ -28,7 +28,7 @@ export default function RegisterForm() {
         setSuccess("");
       }
     } catch (err) {
-      setError("Error de red. ¿Está el backend activo?");
+      setError("Error connecting to the server");
       setSuccess("");
     }
   }
@@ -37,8 +37,7 @@ export default function RegisterForm() {
     <form
       onSubmit={handleRegister}
       className="bg-white rounded-xl shadow-lg p-8 space-y-6 text-center"
-      aria-label="Formulario de registro"
-    >
+      aria-label="Register Form">
       <h2 className="text-4xl font-extrabold text-gray-800">New Account</h2>
 
       {error && (
@@ -85,8 +84,7 @@ export default function RegisterForm() {
 
       <button
         type="submit"
-        className="bg-gray-600 hover:bg-blue-400 text-white font-semibold rounded-md py-3 text-lg transition-colors duration-300 w-35" 
-      >
+        className="bg-gray-600 hover:bg-blue-400 text-white font-semibold rounded-md py-3 text-lg transition-colors duration-300 w-35">
         Register
       </button>
 
@@ -94,8 +92,7 @@ export default function RegisterForm() {
         Do you have an account?{" "}
         <a
           href="/login"
-          className="text-gray-600 hover:text-blue-400 font-semibold"
-        >
+          className="text-gray-600 hover:text-blue-400 font-semibold">
           Log in
         </a>
       </p>

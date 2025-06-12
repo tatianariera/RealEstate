@@ -20,11 +20,10 @@ export default function LoginForm() {
 
       const msg = await res.text();
       if (res.ok) {
-localStorage.setItem("loggedIn", "true");
+        localStorage.setItem("loggedIn", "true");
         setSuccess(msg);
         setError("");
         form.reset();
-        // Optionally redirect or do something on successful login
       } else {
         setError(msg);
         setSuccess("");
@@ -39,8 +38,7 @@ localStorage.setItem("loggedIn", "true");
     <form
       onSubmit={handleLogin}
       className="bg-white rounded-xl shadow-lg p-8 space-y-6 text-center"
-      aria-label="Login form"
-    >
+      aria-label="Login form">
       <h2 className="text-4xl font-extrabold text-gray-800">Sign In</h2>
 
       {error && (
@@ -87,8 +85,7 @@ localStorage.setItem("loggedIn", "true");
 
       <button
         type="submit"
-        className="bg-gray-600 hover:bg-blue-400 text-white font-semibold rounded-md py-3 text-lg transition-colors duration-300 w-35"
-      >
+        className="bg-gray-600 hover:bg-blue-400 text-white font-semibold rounded-md py-3 text-lg transition-colors duration-300 w-35">
         Log In
       </button>
 
@@ -96,8 +93,7 @@ localStorage.setItem("loggedIn", "true");
         Don’t have an account?{" "}
         <a
           href="/register"
-          className="text-gray-600 hover:text-blue-400 font-semibold"
-        >
+          className="text-gray-600 hover:text-blue-400 font-semibold">
           Register
         </a>
       </p>
