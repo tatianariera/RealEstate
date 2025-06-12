@@ -22,7 +22,15 @@ public class EmployeeService {
     }
 
     public List<Employee> findAll() {
-    return repository.findAll();
-}
+        return repository.findAll();
+    }
+
+    public Employee save(Employee employee) {
+        return repository.save(employee);
+    }
+
+    public void deleteById(Integer id) {
+        repository.deleteById(id);
+    }
 
 }

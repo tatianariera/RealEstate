@@ -20,7 +20,8 @@ const menuitems = [
 </style>
 
 <header>
-  <div class="container mx-auto flex flex-wrap items-center justify-between p-4">
+  <div
+    class="container mx-auto flex flex-wrap items-center justify-between p-4">
     <a href="/" class="text-lg font-bold text-slate-800">
       Tatiana's <span class="text-slate-500">Properties</span>
     </a>
@@ -29,53 +30,66 @@ const menuitems = [
       id="menu-toggle"
       class="block lg:hidden text-gray-700 focus:outline-none"
       type="button"
-      aria-label="Toggle menu"
-    >
-      <svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+      aria-label="Toggle menu">
+      <svg
+        class="w-6 h-6"
+        fill="none"
+        stroke="currentColor"
+        stroke-width="2"
+        viewBox="0 0 24 24">
         <path d="M4 6h16M4 12h16M4 18h16"></path>
       </svg>
     </button>
 
-    <nav id="menu" class="hidden w-full lg:flex lg:w-auto lg:items-center lg:justify-center">
-      <ul class="flex flex-col lg:flex-row lg:gap-6 items-center w-full lg:w-auto">
-        {menuitems.map((item) => (
-          <li class="relative w-full lg:w-auto">
-            {item.children ? (
-              <details class="group lg:inline-block w-full">
-                <summary class="cursor-pointer flex items-center justify-between lg:justify-center gap-1 w-full lg:w-auto h-10 px-3 list-none">
+    <nav
+      id="menu"
+      class="hidden w-full lg:flex lg:w-auto lg:items-center lg:justify-center">
+      <ul
+        class="flex flex-col lg:flex-row lg:gap-6 items-center w-full lg:w-auto">
+        {
+          menuitems.map((item) => (
+            <li class="relative w-full lg:w-auto">
+              {item.children ? (
+                <details class="group lg:inline-block w-full">
+                  <summary class="cursor-pointer flex items-center justify-between lg:justify-center gap-1 w-full lg:w-auto h-10 px-3 list-none">
+                    {item.title}
+                    <svg
+                      class="w-4 h-4 text-gray-600 group-open:rotate-180 transition-transform duration-200"
+                      fill="none"
+                      stroke="currentColor"
+                      stroke-width="2"
+                      viewBox="0 0 24 24">
+                      <path d="M6 9l6 6 6-6" />
+                    </svg>
+                  </summary>
+                  <ul class="pl-4 lg:absolute lg:left-0 lg:top-full lg:bg-white lg:shadow-md lg:mt-2 lg:rounded lg:p-2 lg:min-w-[8rem] lg:z-20">
+                    {item.children.map((child) => (
+                      <li>
+                        <a
+                          href={child.path}
+                          class="block py-1 px-2 hover:bg-gray-100 rounded">
+                          {child.title}
+                        </a>
+                      </li>
+                    ))}
+                  </ul>
+                </details>
+              ) : (
+                <a
+                  href={item.path}
+                  class="block h-10 px-3 items-center hover:text-gray-900">
                   {item.title}
-                  <svg
-                    class="w-4 h-4 text-gray-600 group-open:rotate-180 transition-transform duration-200"
-                    fill="none"
-                    stroke="currentColor"
-                    stroke-width="2"
-                    viewBox="0 0 24 24"
-                  >
-                    <path d="M6 9l6 6 6-6" />
-                  </svg>
-                </summary>
-                <ul class="pl-4 lg:absolute lg:left-0 lg:top-full lg:bg-white lg:shadow-md lg:mt-2 lg:rounded lg:p-2 lg:min-w-[8rem] lg:z-20">
-                  {item.children.map((child) => (
-                    <li>
-                      <a href={child.path} class="block py-1 px-2 hover:bg-gray-100 rounded">{child.title}</a>
-                    </li>
-                  ))}
-                </ul>
-              </details>
-            ) : (
-              <a href={item.path} class="block h-10 px-3 items-center hover:text-gray-900">
-                {item.title}
-              </a>
-            )}
-          </li>
-        ))}
+                </a>
+              )}
+            </li>
+          ))
+        }
 
         <li class="lg:hidden mt-4">
           <button
             id="employees-mobile"
             class="block py-2 bg-gray-700 text-white text-center rounded w-full"
-            type="button"
-          >
+            type="button">
             Employees
           </button>
 
@@ -83,18 +97,41 @@ const menuitems = [
           <ul
             id="employee-mobile-options"
             class="mt-2 px-2 bg-white border rounded shadow-md flex flex-col gap-1"
-            style="display: none;"
-          >
-            <li><a href="/edit" class="block py-1 text-gray-700 hover:underline">Edit Property</a></li>
-            <li><a href="/create" class="block py-1 text-gray-700 hover:underline">New Property</a></li>
-            <li><button id="logout-mobile" class="block py-1 text-left text-gray-700 hover:underline">Log Out</button></li>
+            style="display: none;">
+            <li>
+              <a href="/edit" class="block py-1 text-gray-700 hover:underline"
+                >Edit Property</a
+              >
+            </li>
+            <li>
+              <a href="/create" class="block py-1 text-gray-700 hover:underline"
+                >New Property</a
+              >
+            </li>
+            <li>
+              <a
+                href="/manage-employees"
+                class="block py-1 text-gray-700 hover:underline"
+                >Manage Employees</a
+              >
+            </li>
+            <li>
+              <button
+                id="logout-mobile"
+                class="block py-1 text-left text-gray-700 hover:underline"
+                >Log Out</button
+              >
+            </li>
           </ul>
         </li>
       </ul>
     </nav>
 
     <div class="hidden lg:flex gap-4 items-center">
-      <button id="employees-desktop" class="text-gray-700 hover:text-gray-900 focus:outline-none" type="button">
+      <button
+        id="employees-desktop"
+        class="text-gray-700 hover:text-gray-900 focus:outline-none"
+        type="button">
         Employees
       </button>
     </div>
@@ -103,11 +140,13 @@ const menuitems = [
   <!-- Menú desplegable escritorio de Employees -->
   <div
     id="employee-options-menu"
-    class="hidden fixed top-16 right-4 bg-white border shadow-md rounded-lg p-4 z-50 flex flex-col gap-2"
-  >
+    class="hidden fixed top-16 right-4 bg-white border shadow-md rounded-lg p-4 z-50 flex flex-col gap-2">
     <a href="/edit" class="text-gray-700 hover:underline">Edit Property</a>
     <a href="/create" class="text-gray-700 hover:underline">New Property</a>
-    <button id="logout-desktop" class="text-left text-gray-700 hover:underline">Log Out</button>
+    <a href="/manage-employees" class="text-gray-700 hover:underline">Manage Employees</a>
+    <button id="logout-desktop" class="text-left text-gray-700 hover:underline">
+      Log Out
+    </button>
   </div>
 
   <script is:inline>
@@ -118,7 +157,9 @@ const menuitems = [
     const optionsMenu = document.getElementById("employee-options-menu");
     const logoutMobile = document.getElementById("logout-mobile");
     const logoutDesktop = document.getElementById("logout-desktop");
-    const employeeMobileOptions = document.getElementById("employee-mobile-options");
+    const employeeMobileOptions = document.getElementById(
+      "employee-mobile-options"
+    );
 
     toggleBtn?.addEventListener("click", () => {
       menu.classList.toggle("hidden");
@@ -130,7 +171,10 @@ const menuitems = [
 
     function handleEmployeesClickMobile() {
       if (isLoggedIn()) {
-        if (employeeMobileOptions.style.display === "none" || employeeMobileOptions.style.display === "") {
+        if (
+          employeeMobileOptions.style.display === "none" ||
+          employeeMobileOptions.style.display === ""
+        ) {
           employeeMobileOptions.style.display = "flex";
         } else {
           employeeMobileOptions.style.display = "none";
@@ -157,5 +201,19 @@ const menuitems = [
     employeesDesktop?.addEventListener("click", handleEmployeesClickDesktop);
     logoutMobile?.addEventListener("click", handleLogout);
     logoutDesktop?.addEventListener("click", handleLogout);
+
+    document.addEventListener("click", (event) => {
+      const isClickInside =
+        optionsMenu.contains(event.target) ||
+        employeesDesktop?.contains(event.target) ||
+        employeesMobile?.contains(event.target);
+      if (!isClickInside) {
+        optionsMenu.classList.add("hidden");
+      }
+    });
+
+    window.addEventListener("popstate", () => {
+      optionsMenu.classList.add("hidden");
+    });
   </script>
 </header>

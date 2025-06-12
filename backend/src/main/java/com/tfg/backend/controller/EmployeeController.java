@@ -21,4 +21,23 @@ public class EmployeeController {
     public List<Employee> getAllEmployees() {
         return service.findAll();
     }
+
+    @PostMapping
+    public Employee create(@RequestBody Employee employee) {
+        return service.save(employee);
+    }
+
+    @PutMapping("/{id}")
+    public Employee update(@PathVariable Integer id, @RequestBody Employee updated) {
+        Employee employee = service.findById(id);
+        employee.setName(updated.getName());
+        employee.setEmail(updated.getEmail());
+        return service.save(employee);
+    }
+
+    @DeleteMapping("/{id}")
+    public void delete(@PathVariable Integer id) {
+        service.deleteById(id);
+    }
+
 }
