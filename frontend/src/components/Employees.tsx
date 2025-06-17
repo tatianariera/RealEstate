@@ -15,7 +15,6 @@ export default function Employees() {
   const [showConfirm, setShowConfirm] = useState(false);
   const [employeeToDelete, setEmployeeToDelete] = useState<number | null>(null);
 
-  // Para editar con modal:
   const [showEditModal, setShowEditModal] = useState(false);
   const [editEmployeeId, setEditEmployeeId] = useState<number | null>(null);
   const [editName, setEditName] = useState("");

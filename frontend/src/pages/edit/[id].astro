@@ -144,7 +144,43 @@ const locationName = property?.location?.name ?? "";
           </button>
         </form>
 
+        <div id="modal-overlay" class="fixed inset-0 bg-black/50 backdrop-blur-sm flex items-center justify-center z-50 hidden">
+          <div id="modal-box" class="bg-white rounded-xl p-6 max-w-md w-full shadow-xl text-center">
+            <h2 id="modal-title" class="text-xl font-bold mb-4">Confirm</h2>
+            <p id="modal-message" class="text-gray-700 mb-6">Are you sure?</p>
+            <div class="flex justify-center gap-4">
+              <button id="modal-confirm" class="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700">OK</button>
+            </div>
+          </div>
+        </div>
+
         <script is:inline>
+          function showModal({ title = "Confirm", message = "Are you sure?" }) {
+            return new Promise((resolve) => {
+              const overlay = document.getElementById("modal-overlay");
+              const modalTitle = document.getElementById("modal-title");
+              const modalMessage = document.getElementById("modal-message");
+              const btnCancel = document.getElementById("modal-cancel");
+              const btnConfirm = document.getElementById("modal-confirm");
+
+              modalTitle.textContent = title;
+              modalMessage.textContent = message;
+              overlay.classList.remove("hidden");
+
+              const cleanup = () => {
+                overlay.classList.add("hidden");
+                btnConfirm.removeEventListener("click", confirm);
+              };
+
+              const confirm = () => {
+                cleanup();
+                resolve(true);
+              };
+
+              btnConfirm.addEventListener("click", confirm);
+            });
+          }
+
           document.addEventListener("DOMContentLoaded", () => {
             const form = document.getElementById("edit-form");
 
@@ -152,17 +188,15 @@ const locationName = property?.location?.name ?? "";
               form.addEventListener("submit", async (event) => {
                 event.preventDefault();
 
-                // Validación básica
                 const validateNumber = (value, fieldName) => {
                   const num = Number(value);
                   if (isNaN(num)) {
-                    alert(`Please enter a valid number for ${fieldName}`);
+                    showModal({ title: "Invalid input", message: `Please enter a valid number for ${fieldName}` });
                     return null;
                   }
                   return num;
                 };
 
-                // Obtener valores del formulario
                 const id = form.querySelector("#id").value;
                 const employeeId = Number(form.querySelector("#id").dataset.employeeId);
                 const locationId = Number(form.querySelector("#id").dataset.locationId);
@@ -171,7 +205,7 @@ const locationName = property?.location?.name ?? "";
                 const bathrooms = validateNumber(form.querySelector("#bathrooms").value, "bathrooms");
                 const sqmt = validateNumber(form.querySelector("#sqmt").value, "size");
                 const price = validateNumber(form.querySelector("#price").value, "price");
-                
+
                 if (bedrooms === null || bathrooms === null || sqmt === null || price === null) {
                   return;
                 }
@@ -182,13 +216,10 @@ const locationName = property?.location?.name ?? "";
                 const elevator = form.querySelector("#elevator").checked;
                 const type = form.querySelector("#type").value;
                 const imageUrlsString = form.querySelector("#imageUrls").value.trim();
+                const imageUrls = imageUrlsString
+                  ? imageUrlsString.split(",").map(url => url.trim()).filter(url => url)
+                  : [];
 
-                // Procesar URLs de imágenes
-                const imageUrls = imageUrlsString ? 
-                  imageUrlsString.split(",").map(url => url.trim()).filter(url => url) : 
-                  [];
-
-                // Preparar cuerpo de la solicitud
                 const body = {
                   title,
                   bedrooms,
@@ -205,8 +236,6 @@ const locationName = property?.location?.name ?? "";
                   locationId
                 };
 
-                console.log("Sending data:", JSON.stringify(body, null, 2));
-
                 try {
                   const response = await fetch(`http://localhost:8081/api/properties/${id}`, {
                     method: "PUT",
@@ -217,15 +246,15 @@ const locationName = property?.location?.name ?? "";
                   });
 
                   if (response.ok) {
-                    alert("Property updated successfully");
+                    await showModal({ title: "Success", message: "Property updated successfully" });
                     window.location.href = `/`;
                   } else {
                     const errorData = await response.json();
-                    alert(`Error: ${errorData.message || "Failed to update property"}`);
+                    await showModal({ title: "Error", message: errorData.message || "Failed to update property" });
                   }
                 } catch (error) {
                   console.error("Error:", error);
-                  alert("Error connecting to the server");
+                  await showModal({ title: "Server Error", message: "Error connecting to the server" });
                 }
               });
             }
